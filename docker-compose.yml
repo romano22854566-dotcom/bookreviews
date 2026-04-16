@@ -1,7 +1,6 @@
 version: '3.8'
 
 services:
-  # База данных
   db:
     image: postgres:16-alpine
     container_name: bookreviews_db
@@ -20,7 +19,6 @@ services:
       timeout: 5s
       retries: 5
 
-  # Backend Spring Boot
   backend:
     build:
       context: ./backend
@@ -39,7 +37,6 @@ services:
       db:
         condition: service_healthy
 
-  # Frontend React
   frontend:
     build:
       context: ./frontend

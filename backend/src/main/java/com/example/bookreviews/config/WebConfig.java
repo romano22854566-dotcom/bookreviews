@@ -13,7 +13,7 @@ public class WebConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost", "http://localhost:3000", "http://localhost:3001")
+                        .allowedOrigins("http://localhost", "http://localhost:3000", "http://localhost:3001", "https://book-reviews-frontend-xij5.onrender.com")
                         .allowedMethods("*")
                         .allowedHeaders("*");
             }
