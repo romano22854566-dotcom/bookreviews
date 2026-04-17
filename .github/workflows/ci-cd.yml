@@ -7,9 +7,7 @@ on:
     branches: [ main, master ]
 
 jobs:
-  # ==============================
-  # Тесты Backend
-  # ==============================
+ 
   test-backend:
     name: Backend Tests
     runs-on: ubuntu-latest
@@ -48,9 +46,6 @@ jobs:
           SPRING_JPA_HIBERNATE_DDL_AUTO: create-drop
         run: mvn test -B -Dcheckstyle.skip
 
-  # ==============================
-  # Тесты Frontend
-  # ==============================
   test-frontend:
     name: Frontend Tests
     runs-on: ubuntu-latest
@@ -75,9 +70,6 @@ jobs:
           CI: false
         run: npm run build
 
-  # ==============================
-  # Сборка Docker образов
-  # ==============================
   build-and-push:
     name: Build Docker Images
     runs-on: ubuntu-latest
@@ -108,9 +100,6 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/bookreviews-frontend:latest
 
-  # ==============================
-  # Деплой на Render
-  # ==============================
   deploy:
     name: Deploy to Render
     runs-on: ubuntu-latest
@@ -133,9 +122,6 @@ jobs:
             -H "Content-Type: application/json" \
             -d '{"clearCache": false}'
 
-  # ==============================
-  # Healthcheck
-  # ==============================
   healthcheck:
     name: Healthcheck
     runs-on: ubuntu-latest
