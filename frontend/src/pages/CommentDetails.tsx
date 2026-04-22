@@ -78,7 +78,6 @@ const CommentDetails: React.FC = () => {
           Отзыв #{comment.id}
         </h1>
 
-        {/* Книга — кликабельная */}
         <div
           onClick={handleBookClick}
           style={{
@@ -114,7 +113,6 @@ const CommentDetails: React.FC = () => {
           </div>
         </div>
 
-        {/* Автор отзыва */}
         <div
           style={{
             display: 'flex',
@@ -145,7 +143,6 @@ const CommentDetails: React.FC = () => {
           </div>
         </div>
 
-        {/* Рейтинг */}
         <div
           style={{
             display: 'flex',
@@ -182,7 +179,6 @@ const CommentDetails: React.FC = () => {
           </div>
         </div>
 
-        {/* Текст отзыва */}
         <div
           style={{
             background: 'white',

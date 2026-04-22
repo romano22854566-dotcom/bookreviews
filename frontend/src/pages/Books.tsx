@@ -19,7 +19,7 @@ function calcRatingFloor(comments: string[]): number | null {
   return Math.floor(avg);
 }
 
-const BOOKS_PER_PAGE = 10;
+const PAGE_SIZE_OPTIONS = [5, 10, 20, 50];
 
 const Books: React.FC = () => {
   const [books, setBooks] = useState<Book[]>([]);
@@ -28,6 +28,7 @@ const Books: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
   const navigate = useNavigate();
   const { showToast } = useToast();
 
@@ -49,7 +50,7 @@ const Books: React.FC = () => {
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchTerm, filterRating]);
+  }, [searchTerm, filterRating, pageSize]);
 
   const filteredBooks = books.filter((b: Book) => {
     const matchesSearch = b.title.toLowerCase().includes(searchTerm.toLowerCase());
@@ -61,10 +62,10 @@ const Books: React.FC = () => {
     return true;
   });
 
-  const totalPages = Math.ceil(filteredBooks.length / BOOKS_PER_PAGE);
+  const totalPages = Math.ceil(filteredBooks.length / pageSize);
   const paginatedBooks = filteredBooks.slice(
-    (currentPage - 1) * BOOKS_PER_PAGE,
-    currentPage * BOOKS_PER_PAGE
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
   );
 
   const handlePageChange = (page: number) => {
@@ -104,14 +105,10 @@ const Books: React.FC = () => {
             />
           </div>
           <div className="filter-box">
-            <span style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
-              Оценка:
-            </span>
+            <span style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Оценка:</span>
             <select
               value={filterRating}
-              onChange={(e) =>
-                setFilterRating(e.target.value === '' ? '' : Number(e.target.value))
-              }
+              onChange={(e) => setFilterRating(e.target.value === '' ? '' : Number(e.target.value))}
             >
               <option value="">Все</option>
               {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((r) => (
@@ -135,8 +132,23 @@ const Books: React.FC = () => {
         </div>
       ) : (
         <>
-          <div style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginBottom: '16px' }}>
-            Показано {(currentPage - 1) * BOOKS_PER_PAGE + 1}–{Math.min(currentPage * BOOKS_PER_PAGE, filteredBooks.length)} из {filteredBooks.length} книг
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px', flexWrap: 'wrap', gap: '10px' }}>
+            <div style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>
+              Показано {(currentPage - 1) * pageSize + 1}–{Math.min(currentPage * pageSize, filteredBooks.length)} из {filteredBooks.length} книг
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>На странице:</span>
+              <div className="filter-box" style={{ padding: '6px 10px' }}>
+                <select
+                  value={pageSize}
+                  onChange={(e) => setPageSize(Number(e.target.value))}
+                >
+                  {PAGE_SIZE_OPTIONS.map((s) => (
+                    <option key={s} value={s}>{s}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
           </div>
 
           <div className="grid">
@@ -165,7 +177,6 @@ const Books: React.FC = () => {
               >
                 <ChevronLeft size={16} />
               </button>
-
               {getPageNumbers().map((page, idx) =>
                 page === '...' ? (
                   <span key={`dots-${idx}`} style={{
@@ -186,7 +197,6 @@ const Books: React.FC = () => {
                   </button>
                 )
               )}
-
               <button
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}

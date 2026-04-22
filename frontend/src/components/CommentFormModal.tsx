@@ -42,11 +42,11 @@ const CommentFormModal: React.FC<Props> = ({ bookTitle, editComment, onClose, on
         await api.put(`/comments/${editComment.id}`, {
           text: text.trim(),
           rating,
-          bookId: 0, // не используется при update (сервис берёт из БД)
+          bookId: 0, 
           userId: 0,
         });
       } else {
-        // Нужно найти bookId по title
+        
         const booksRes = await api.get('/books');
         const books = Array.isArray(booksRes.data) ? booksRes.data : [];
         const book = books.find((b: any) => b.title === bookTitle);
@@ -106,7 +106,6 @@ const CommentFormModal: React.FC<Props> = ({ bookTitle, editComment, onClose, on
           </div>
         )}
 
-        {/* Оценка — фиксированные 1..10 */}
         <div className="form-group" style={{ marginBottom: '14px' }}>
           <label className="form-label">Оценка: {rating} / 10</label>
           <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginTop: '6px' }}>

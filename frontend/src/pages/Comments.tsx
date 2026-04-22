@@ -110,7 +110,7 @@ const Comments: React.FC = () => {
                       <Star size={16} fill="#f1c40f" color="#f1c40f" />
                       {c.rating} / 10
                     </span>
-                    {/* Кнопка редактировать — открывает модалку прямо здесь */}
+                    
                     <button
                       className="back-btn"
                       style={{ marginBottom: 0, padding: '4px 10px', fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '4px' }}
@@ -143,7 +143,6 @@ const Comments: React.FC = () => {
         </div>
       )}
 
-      {/* Модалка редактирования прямо на странице отзывов */}
       {showEditModal && editComment && (
         <CommentFormModal
           bookTitle={editComment.bookTitle}

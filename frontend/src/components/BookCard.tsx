@@ -26,17 +26,16 @@ function getBookEmoji(title: string, categories: string[]): string {
   return '📖';
 }
 
-// Глубокий однотонный цвет фона (без яркого градиента)
 function getCoverBg(title: string): string {
   const colors = [
-    '#1e1810', // тёмно-коричневый
-    '#111820', // графитово-синий
-    '#161020', // тёмно-фиолетовый
-    '#101a14', // тёмно-зелёный
-    '#1a1014', // тёмно-бордовый
-    '#181a10', // тёмно-оливковый
-    '#201410', // тёмно-терракотовый
-    '#101818', // тёмно-бирюзовый
+    '#1e1810', 
+    '#111820', 
+    '#161020',
+    '#101a14', 
+    '#1a1014', 
+    '#181a10', 
+    '#201410', 
+    '#101818', 
   ];
   const idx = title.charCodeAt(0) % colors.length;
   return colors[idx];
@@ -68,7 +67,6 @@ const BookCard: React.FC<Props> = ({ book, onClick }) => {
       onClick={onClick}
       style={{ cursor: onClick ? 'pointer' : 'default' }}
     >
-      {/* Обложка — однотонный тёмный фон */}
       <div
         className="book-cover"
         style={{ background: bgColor }}
@@ -76,7 +74,6 @@ const BookCard: React.FC<Props> = ({ book, onClick }) => {
         <div className="book-cover-inner">{emoji}</div>
       </div>
 
-      {/* Контент */}
       <div className="book-card-body">
         <div className="book-rating">
           ★{' '}

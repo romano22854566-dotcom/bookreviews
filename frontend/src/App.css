@@ -36,7 +36,6 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ─── LAYOUT ─── */
 .app-container {
   display: flex;
   height: 100vh;
@@ -44,7 +43,6 @@ body {
   overflow: hidden;
 }
 
-/* ─── SIDEBAR ─── */
 .sidebar {
   width: var(--sidebar-width);
   background: var(--bg-sidebar);
@@ -118,7 +116,6 @@ body {
   letter-spacing: 1.8px;
 }
 
-/* ─── USER PANEL (без кнопки выхода) ─── */
 .user-panel {
   margin-top: auto;
   padding: 16px;
@@ -156,7 +153,6 @@ body {
   font-weight: 500;
 }
 
-/* ─── MAIN CONTENT ─── */
 .main-content {
   flex-grow: 1;
   overflow-y: auto;
@@ -164,7 +160,6 @@ body {
   background: var(--bg);
 }
 
-/* ─── PAGE HEADER ─── */
 .page-header {
   display: flex;
   justify-content: space-between;
@@ -185,14 +180,12 @@ body {
   gap: 12px;
 }
 
-/* ─── GRID ─── */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 20px;
 }
 
-/* ─── BOOK CARD ─── */
 .book-card {
   background: var(--bg-card);
   border-radius: var(--radius);
@@ -209,7 +202,6 @@ body {
   border-color: rgba(201, 168, 76, 0.25);
 }
 
-/* Обложка книги */
 .book-cover {
   width: 100%;
   height: 140px;
@@ -283,7 +275,6 @@ body {
   margin-top: 10px;
 }
 
-/* ─── TAGS ─── */
 .tag,
 .category-tag {
   display: inline-block;
@@ -302,7 +293,6 @@ body {
   border-color: rgba(109, 184, 135, 0.2);
 }
 
-/* ─── CARD (generic) ─── */
 .card {
   background: var(--bg-card);
   padding: 22px;
@@ -323,7 +313,6 @@ body {
   color: var(--text-primary);
 }
 
-/* ─── SEARCH ─── */
 .search-box {
   display: flex;
   align-items: center;
@@ -359,7 +348,6 @@ body {
   color: var(--text-muted);
 }
 
-/* ─── FILTER SELECT ─── */
 .filter-box {
   display: flex;
   align-items: center;
@@ -385,7 +373,6 @@ body {
   color: var(--text-primary);
 }
 
-/* ─── BACK BUTTON ─── */
 .back-btn {
   display: inline-flex;
   align-items: center;
@@ -408,7 +395,6 @@ body {
   background: var(--bg-elevated);
 }
 
-/* ─── DETAILS PAGE ─── */
 .details-page {
   padding: 0;
 }
@@ -436,7 +422,6 @@ body {
   margin-top: 8px;
 }
 
-/* ─── COMMENTS ─── */
 .comments-list {
   display: flex;
   flex-direction: column;
@@ -502,7 +487,6 @@ body {
   gap: 5px;
 }
 
-/* ─── TABLES ─── */
 .admin-table,
 .logs-table {
   width: 100%;
@@ -540,7 +524,6 @@ body {
   background: rgba(255, 255, 255, 0.02);
 }
 
-/* ─── BADGES ─── */
 .role-badge {
   display: inline-block;
   padding: 3px 10px;
@@ -570,7 +553,6 @@ body {
   font-weight: 500;
 }
 
-/* ─── BUTTONS ─── */
 .btn-delete {
   background: rgba(231, 76, 60, 0.1);
   color: #e57373;
@@ -614,7 +596,6 @@ body {
   transform: translateY(-1px);
 }
 
-/* ─── TABLE WRAPPER ─── */
 .table-wrapper {
   background: var(--bg-card);
   border-radius: var(--radius);
@@ -622,12 +603,10 @@ body {
   overflow: hidden;
 }
 
-/* ─── PAGE WRAPPER ─── */
 .page-wrapper {
   padding: 0;
 }
 
-/* ─── LOADING / EMPTY ─── */
 .state-center {
   display: flex;
   flex-direction: column;
@@ -639,7 +618,6 @@ body {
   font-size: 0.95rem;
 }
 
-/* ─── FORM INPUTS ─── */
 .form-input {
   width: 100%;
   padding: 10px 14px;
@@ -673,7 +651,6 @@ body {
   font-family: 'Inter', sans-serif;
 }
 
-/* ─── ADD FORM ─── */
 .add-form {
   background: var(--bg-card);
   padding: 20px;
@@ -699,7 +676,6 @@ body {
   font-weight: 600;
 }
 
-/* ─── SCROLLBAR ─── */
 ::-webkit-scrollbar {
   width: 6px;
 }
