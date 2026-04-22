@@ -29,7 +29,9 @@ const Comments: React.FC = () => {
       .catch(() => setLoading(false));
   };
 
-  useEffect(() => { loadComments(); }, []);
+  useEffect(() => {
+    loadComments();
+  }, []);
 
   useEffect(() => {
     setCurrentPage(1);
@@ -62,6 +64,7 @@ const Comments: React.FC = () => {
   });
 
   const totalPages = Math.ceil(filteredComments.length / pageSize);
+
   const paginatedComments = filteredComments.slice(
     (currentPage - 1) * pageSize,
     currentPage * pageSize
@@ -80,7 +83,11 @@ const Comments: React.FC = () => {
     } else {
       pages.push(1);
       if (currentPage > 3) pages.push('...');
-      for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) {
+      for (
+        let i = Math.max(2, currentPage - 1);
+        i <= Math.min(totalPages - 1, currentPage + 1);
+        i++
+      ) {
         pages.push(i);
       }
       if (currentPage < totalPages - 2) pages.push('...');
@@ -91,6 +98,7 @@ const Comments: React.FC = () => {
 
   return (
     <div className="page-wrapper">
+
       <div className="page-header">
         <h2 style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <MessageSquare color="var(--accent)" /> Отзывы читателей
@@ -109,7 +117,9 @@ const Comments: React.FC = () => {
             <span style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Оценка:</span>
             <select
               value={filterRating}
-              onChange={(e) => setFilterRating(e.target.value === '' ? '' : Number(e.target.value))}
+              onChange={(e) =>
+                setFilterRating(e.target.value === '' ? '' : Number(e.target.value))
+              }
             >
               <option value="">Все</option>
               {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((r) => (
@@ -120,17 +130,35 @@ const Comments: React.FC = () => {
         </div>
       </div>
 
+
       {loading ? (
-        <div style={{ textAlign: 'center', padding: '60px', color: 'var(--text-muted)' }}>Загрузка...</div>
+        <div style={{ textAlign: 'center', padding: '60px', color: 'var(--text-muted)' }}>
+          Загрузка...
+        </div>
       ) : (
         <>
+   
           {filteredComments.length > 0 && (
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px', flexWrap: 'wrap', gap: '10px' }}>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                marginBottom: '16px',
+                flexWrap: 'wrap',
+                gap: '10px',
+              }}
+            >
               <div style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>
-                Показано {(currentPage - 1) * pageSize + 1}–{Math.min(currentPage * pageSize, filteredComments.length)} из {filteredComments.length} отзывов
+                Показано{' '}
+                {(currentPage - 1) * pageSize + 1}–
+                {Math.min(currentPage * pageSize, filteredComments.length)}{' '}
+                из {filteredComments.length} отзывов
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>На странице:</span>
+                <span style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>
+                  На странице:
+                </span>
                 <div className="filter-box" style={{ padding: '6px 10px' }}>
                   <select
                     value={pageSize}
@@ -159,18 +187,31 @@ const Comments: React.FC = () => {
                   onClick={() => navigate(`/comments/${c.id}`)}
                 >
                   <div className="comment-header">
-                    <span className="comment-book" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <span
+                      className="comment-book"
+                      style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
+                    >
                       <BookOpen size={16} />
                       {c.bookTitle || 'Книга не указана'}
                     </span>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <span className="comment-score" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                      <span
+                        className="comment-score"
+                        style={{ display: 'flex', alignItems: 'center', gap: '4px' }}
+                      >
                         <Star size={16} fill="#f1c40f" color="#f1c40f" />
                         {c.rating} / 10
                       </span>
                       <button
                         className="back-btn"
-                        style={{ marginBottom: 0, padding: '4px 10px', fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '4px' }}
+                        style={{
+                          marginBottom: 0,
+                          padding: '4px 10px',
+                          fontSize: '0.8rem',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '4px',
+                        }}
                         onClick={(e) => handleEditClick(e, c)}
                         title="Редактировать отзыв"
                       >
@@ -189,7 +230,10 @@ const Comments: React.FC = () => {
                     "{c.text || 'Текст отзыва отсутствует'}"
                   </p>
                   <div className="comment-footer">
-                    <span className="comment-author" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <span
+                      className="comment-author"
+                      style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
+                    >
                       <User size={14} />
                       Автор: <b>{c.userName || 'Аноним'}</b>
                     </span>
@@ -200,14 +244,16 @@ const Comments: React.FC = () => {
           </div>
 
           {totalPages > 1 && (
-            <div style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              gap: '6px',
-              marginTop: '40px',
-              flexWrap: 'wrap',
-            }}>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: '6px',
+                marginTop: '40px',
+                flexWrap: 'wrap',
+              }}
+            >
               <button
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
@@ -215,14 +261,20 @@ const Comments: React.FC = () => {
               >
                 <ChevronLeft size={16} />
               </button>
+
               {getPageNumbers().map((page, idx) =>
                 page === '...' ? (
-                  <span key={`dots-${idx}`} style={{
-                    padding: '0 4px',
-                    color: 'var(--text-muted)',
-                    fontSize: '0.9rem',
-                    userSelect: 'none',
-                  }}>…</span>
+                  <span
+                    key={`dots-${idx}`}
+                    style={{
+                      padding: '0 4px',
+                      color: 'var(--text-muted)',
+                      fontSize: '0.9rem',
+                      userSelect: 'none',
+                    }}
+                  >
+                    …
+                  </span>
                 ) : (
                   <button
                     key={page}
@@ -233,6 +285,7 @@ const Comments: React.FC = () => {
                   </button>
                 )
               )}
+
               <button
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
@@ -249,7 +302,10 @@ const Comments: React.FC = () => {
         <CommentFormModal
           bookTitle={editComment.bookTitle}
           editComment={editComment}
-          onClose={() => { setShowEditModal(false); setEditComment(null); }}
+          onClose={() => {
+            setShowEditModal(false);
+            setEditComment(null);
+          }}
           onSuccess={() => {
             setShowEditModal(false);
             setEditComment(null);
@@ -263,23 +319,35 @@ const Comments: React.FC = () => {
 };
 
 const pageBtnStyle = (isActive: boolean): React.CSSProperties => ({
-  width: '38px', height: '38px', borderRadius: '8px',
+  width: '38px',
+  height: '38px',
+  borderRadius: '8px',
   border: isActive ? '2px solid var(--accent)' : '1px solid var(--border)',
   background: isActive ? 'var(--accent-dim)' : 'var(--bg-card)',
   color: isActive ? 'var(--accent)' : 'var(--text-secondary)',
   fontWeight: isActive ? '700' : '400',
-  fontSize: '0.9rem', cursor: 'pointer', transition: 'all 0.15s ease',
-  display: 'flex', alignItems: 'center', justifyContent: 'center',
+  fontSize: '0.9rem',
+  cursor: 'pointer',
+  transition: 'all 0.15s ease',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
   fontFamily: 'Inter, sans-serif',
 });
 
 const navBtnStyle = (isDisabled: boolean): React.CSSProperties => ({
-  width: '38px', height: '38px', borderRadius: '8px',
-  border: '1px solid var(--border)', background: 'var(--bg-card)',
+  width: '38px',
+  height: '38px',
+  borderRadius: '8px',
+  border: '1px solid var(--border)',
+  background: 'var(--bg-card)',
   color: isDisabled ? 'var(--text-muted)' : 'var(--text-secondary)',
   cursor: isDisabled ? 'not-allowed' : 'pointer',
-  opacity: isDisabled ? 0.4 : 1, transition: 'all 0.15s ease',
-  display: 'flex', alignItems: 'center', justifyContent: 'center',
+  opacity: isDisabled ? 0.4 : 1,
+  transition: 'all 0.15s ease',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
 });
 
 export default Comments;
