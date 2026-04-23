@@ -33,6 +33,8 @@ const BookFormModal: React.FC<Props> = ({ onClose, onSuccess, editBook }) => {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const { showToast } = useToast();
+const [authorSearch, setAuthorSearch] = useState('');
+const [authorDropdownOpen, setAuthorDropdownOpen] = useState(false);
 
   useEffect(() => {
     Promise.all([api.get('/authors'), api.get('/categories')]).then(
@@ -139,33 +141,137 @@ const BookFormModal: React.FC<Props> = ({ onClose, onSuccess, editBook }) => {
           </div>
         </div>
 
-        <div className="form-group" style={{ marginBottom: '14px' }}>
-          <label className="form-label">Авторы</label>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginTop: '6px' }}>
-            {authors.map((a) => {
-              const selected = selectedAuthorIds.includes(a.id);
-              return (
-                <span
-                  key={a.id}
-                  onClick={() => toggleAuthor(a.id)}
-                  style={{
-                    padding: '4px 12px',
-                    borderRadius: '20px',
-                    cursor: 'pointer',
-                    fontSize: '0.82rem',
-                    border: selected ? '1px solid var(--accent)' : '1px solid var(--border)',
-                    background: selected ? 'var(--accent-dim)' : 'var(--bg-elevated)',
-                    color: selected ? 'var(--accent)' : 'var(--text-secondary)',
-                    transition: 'all 0.15s',
-                  }}
-                >
-                  {a.firstName} {a.lastName}
-                </span>
-              );
-            })}
-            {authors.length === 0 && <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Авторы не найдены</span>}
+       <div className="form-group" style={{ marginBottom: '14px' }}>
+  <label className="form-label">Авторы</label>
+  {selectedAuthorIds.length > 0 && (
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '8px' }}>
+      {selectedAuthorIds.map((id) => {
+        const a = authors.find((x) => x.id === id);
+        if (!a) return null;
+        return (
+          <span
+            key={id}
+            style={{
+              padding: '4px 10px',
+              borderRadius: '20px',
+              fontSize: '0.82rem',
+              border: '1px solid var(--accent)',
+              background: 'var(--accent-dim)',
+              color: 'var(--accent)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+            }}
+          >
+            {a.firstName} {a.lastName}
+            <span
+              onClick={() => toggleAuthor(id)}
+              style={{ cursor: 'pointer', fontWeight: 'bold', fontSize: '1rem', lineHeight: 1 }}
+            >
+              ×
+            </span>
+          </span>
+        );
+      })}
+    </div>
+  )}
+
+  <div style={{ position: 'relative' }}>
+    <input
+      className="form-input"
+      placeholder="Поиск автора..."
+      value={authorSearch}
+      onChange={(e) => {
+        setAuthorSearch(e.target.value);
+        setAuthorDropdownOpen(true);
+      }}
+      onFocus={() => setAuthorDropdownOpen(true)}
+      onBlur={() => setTimeout(() => setAuthorDropdownOpen(false), 150)}
+    />
+
+    {authorDropdownOpen && (
+      <div
+        style={{
+          position: 'absolute',
+          top: '100%',
+          left: 0,
+          right: 0,
+          zIndex: 100,
+          background: 'var(--bg-card)',
+          border: '1px solid var(--border)',
+          borderRadius: '8px',
+          marginTop: '4px',
+          maxHeight: '220px',
+          overflowY: 'auto',
+          boxShadow: '0 8px 24px rgba(0,0,0,0.4)',
+        }}
+      >
+        {authors
+          .filter((a) =>
+            `${a.firstName} ${a.lastName}`
+              .toLowerCase()
+              .includes(authorSearch.toLowerCase())
+          )
+          .map((a) => {
+            const selected = selectedAuthorIds.includes(a.id);
+            return (
+              <div
+                key={a.id}
+                onMouseDown={() => {
+                  toggleAuthor(a.id);
+                  setAuthorSearch('');
+                }}
+                style={{
+                  padding: '10px 14px',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  background: selected ? 'var(--accent-dim)' : 'transparent',
+                  color: selected ? 'var(--accent)' : 'var(--text-primary)',
+                  fontSize: '0.9rem',
+                  transition: 'background 0.15s',
+                }}
+                onMouseEnter={(e) => {
+                  if (!selected)
+                    (e.currentTarget as HTMLDivElement).style.background =
+                      'var(--bg-elevated)';
+                }}
+                onMouseLeave={(e) => {
+                  if (!selected)
+                    (e.currentTarget as HTMLDivElement).style.background =
+                      'transparent';
+                }}
+              >
+                <span>{a.firstName} {a.lastName}</span>
+                {selected && (
+                  <span style={{ fontSize: '0.75rem', color: 'var(--accent)' }}>
+                    ✓ выбран
+                  </span>
+                )}
+              </div>
+            );
+          })}
+
+        {authors.filter((a) =>
+          `${a.firstName} ${a.lastName}`
+            .toLowerCase()
+            .includes(authorSearch.toLowerCase())
+        ).length === 0 && (
+          <div
+            style={{
+              padding: '12px 14px',
+              color: 'var(--text-muted)',
+              fontSize: '0.85rem',
+            }}
+          >
+            Авторы не найдены
           </div>
-        </div>
+        )}
+      </div>
+    )}
+  </div>
+</div>
 
         <div className="form-group" style={{ marginBottom: '20px' }}>
           <label className="form-label">Категории</label>
